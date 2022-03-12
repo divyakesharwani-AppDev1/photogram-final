@@ -11,28 +11,13 @@
     <%= stylesheet_link_tag "application", media: "all" %>
   </head>
   <body>
+
     <ul>
-      <li> <a href="/user_sign_up">Sign Up</a></li>
-      <li> <a href="/user_sign_in">Sign Ip</a></li>    
-      <li> <a href="/user_sign_out">Sign Out</a></li>
-
-      <#% ACTUAL ONE
-
-      <li> <a href="/movies">Movies</a></li>
-      <li> <a href="/directors">Directors</a></li>
-      <li> <a href="/characters">Charaters</a></li>
-      <li> <a href="/actors">Actors</a></li>
+      <li> <a href="/user_sign_up">Sign up</a></li>
+      <li> <a href="/user_sign_in">Sign in</a></li>    
       
-      <#% if @current_user == nil 
-      
-      <li> <a href="/user_sign_up">Sign Up</a></li>
-      <li> <a href="/user_sign_in">Sign Ip</a></li>
-      <#% else 
-      
-      <li> <a href="/user_sign_out">Sign Out</a></li>
-      <#% end   %>
 
-      </ul>
+    </ul>
 
 
       <p> <%= notice %></p>
@@ -40,6 +25,6 @@
 
 
       <%= yield %>
-      
+
     </body>
   </html>
