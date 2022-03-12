@@ -3,18 +3,43 @@
   <head>
     <title>PhotogramFinal</title>
     <%= csrf_meta_tags %>
-
     <!-- Expand the number of characters we can use in the document beyond basic ASCII 🎉 -->
     <meta charset="utf-8">
-
     <!-- Make it responsive to small screens -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <%= csp_meta_tag %>
-
-    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= stylesheet_link_tag "application", media: "all" %>
   </head>
-
   <body>
-    <%= yield %>
-  </body>
-</html>
+    <ul>
+      <li> <a href="/user_sign_up">Sign Up</a></li>
+      <li> <a href="/user_sign_in">Sign Ip</a></li>    
+      <li> <a href="/user_sign_out">Sign Out</a></li>
+
+      <#% ACTUAL ONE
+
+      <li> <a href="/movies">Movies</a></li>
+      <li> <a href="/directors">Directors</a></li>
+      <li> <a href="/characters">Charaters</a></li>
+      <li> <a href="/actors">Actors</a></li>
+      
+      <#% if @current_user == nil 
+      
+      <li> <a href="/user_sign_up">Sign Up</a></li>
+      <li> <a href="/user_sign_in">Sign Ip</a></li>
+      <#% else 
+      
+      <li> <a href="/user_sign_out">Sign Out</a></li>
+      <#% end   %>
+
+      </ul>
+
+
+      <p> <%= notice %></p>
+      <p> <% alert %> </p>
+
+
+      <%= yield %>
+      
+    </body>
+  </html>
