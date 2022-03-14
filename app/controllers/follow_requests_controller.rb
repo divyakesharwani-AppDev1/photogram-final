@@ -22,13 +22,22 @@ class FollowRequestsController < ApplicationController
     the_follow_request.recipient_id = params.fetch("query_recipient_id")
     the_follow_request.sender_id = params.fetch("query_sender_id")
     the_follow_request.status = params.fetch("query_status")
+    recipient_username = User.where({:id => the_follow_request.recipient_id }).at(0).username
+   
 
     if the_follow_request.valid?
       the_follow_request.save
-      redirect_to("/follow_requests", { :notice => "Follow request created successfully." })
+      if the_follow_request.status == "accepted"
+        redirect_to("/users/"+recipient_username, { :notice => "Follow request updated successfully."} )
+      elsif the_follow_request.status == "pending"
+        redirect_to("/users", { :alert => "You're not authorized for that"})
+      end
     else
-      redirect_to("/follow_requests", { :notice => "Follow request failed to create successfully." })
+      redirect_to("/users", { :alert => "Follow request failed to update successfully." })
     end
+
+
+
   end
 
   def update
@@ -41,10 +50,11 @@ class FollowRequestsController < ApplicationController
 
     if the_follow_request.valid?
       the_follow_request.save
-      redirect_to("/follow_requests/#{the_follow_request.id}", { :notice => "Follow request updated successfully."} )
+     redirect_to("/follow_requests/#{the_follow_request.id}", { :notice => "Follow request updated successfully."} )
     else
       redirect_to("/follow_requests/#{the_follow_request.id}", { :alert => "Follow request failed to update successfully." })
     end
+  
   end
 
   def destroy
@@ -53,6 +63,6 @@ class FollowRequestsController < ApplicationController
 
     the_follow_request.destroy
 
-    redirect_to("/follow_requests", { :notice => "Follow request deleted successfully."} )
+    redirect_to("/", { :notice => "Follow request deleted successfully."} )
   end
 end

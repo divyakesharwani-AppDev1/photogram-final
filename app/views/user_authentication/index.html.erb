@@ -27,9 +27,15 @@
           <td>
             <%= a_user.username %>
           </td>
+
           <td>
-            <%= a_user.private %>
+            <% if a_user.private == true %>
+            Yes
+            <% else %>
+            No
+            <% end %>
           </td>
+
           <% if @current_user != nil %>
             <td>
               <form action="/insert_follow_request" method="post">
@@ -40,9 +46,18 @@
                 <% else %>
                   <input type="hidden" id="status_box" name="query_status" value="accepted">
                 <% end %>
-                <button>
-                  Follow
-                </button>
+                <% current_user_follow_request = FollowRequest.where({:recipient_id => a_user.id, :sender_id => @current_user.id }) %>
+                <% the_follow_request = current_user_follow_request.at(0) %>
+                <% if the_follow_request == nil %>
+                  <button>
+                    Follow
+                  </button>
+                <% elsif the_follow_request.status == "pending" %>
+                  Requst sent <a href="/delete_follow_request/#{<%= the_follow_request.id %>}"> Cancel </a>
+                <% elsif the_follow_request.status == "accepted" %>
+                  <a href="/delete_follow_request/#{<%= the_follow_request.id %>}"> Unfollow </a>
+                <% elsif the_follow_request.status == "rejected" %>
+                <% end %>
               </form>
             </td>
           <% end %>
