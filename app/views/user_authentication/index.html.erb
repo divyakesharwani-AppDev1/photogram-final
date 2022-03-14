@@ -23,19 +23,19 @@
         </th>
       </tr>
       <% @list_of_users.each do |a_user| %>
+      <% current_user_follow_request = FollowRequest.where({:recipient_id => a_user.id, :sender_id => @current_user.id }) %>
+      <% the_follow_request = current_user_follow_request.at(0) %>
         <tr>
           <td>
             <%= a_user.username %>
           </td>
-
           <td>
             <% if a_user.private == true %>
-            Yes
+              Yes
             <% else %>
-            No
+              No
             <% end %>
           </td>
-
           <% if @current_user != nil %>
             <td>
               <form action="/insert_follow_request" method="post">
@@ -46,8 +46,6 @@
                 <% else %>
                   <input type="hidden" id="status_box" name="query_status" value="accepted">
                 <% end %>
-                <% current_user_follow_request = FollowRequest.where({:recipient_id => a_user.id, :sender_id => @current_user.id }) %>
-                <% the_follow_request = current_user_follow_request.at(0) %>
                 <% if the_follow_request == nil %>
                   <button>
                     Follow
@@ -62,9 +60,15 @@
             </td>
           <% end %>
           <td>
-            <a href="/users/<%= a_user.username %>">
-              Show details
-            </a>
+                <% if the_follow_request == nil %>
+                 <a href="/users"> Show details with notice  </a>
+                <% elsif the_follow_request.status == "pending" %>
+                 <a href="/users"> Show details with notice  </a>
+                <% elsif the_follow_request.status == "accepted" %>
+                  <a href="/users/<%= a_user.username %>"> Show details </a>
+                <% elsif the_follow_request.status == "rejected" %>
+                 <a href="/users"> Show details with notice  </a>
+                <% end %>
           </td>
         </tr>
       <% end %>
