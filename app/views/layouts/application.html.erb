@@ -11,21 +11,17 @@
     <%= stylesheet_link_tag "application", media: "all" %>
   </head>
   <body>
-
     <ul>
       <li> <a href="/users"> All users </a></li>
-      <li> <a href="/user_sign_up">Sign up</a></li>
-      <li> <a href="/user_sign_in">Sign in</a></li>    
-      
-
+      <% if @current_user == nil %>
+        <li> <a href="/user_sign_up">Sign up</a></li>
+        <li> <a href="/user_sign_in">Sign in</a></li>
+      <% else %>
+        <li> <a href="/user_sign_out">Sign out</a></li>
+      <% end %>
     </ul>
-
-
-      <p> <%= notice %></p>
-      <p> <% alert %> </p>
-
-
-      <%= yield %>
-
-    </body>
-  </html>
+    <p> <%= notice %></p>
+    <p> <% alert %> </p>
+    <%= yield %>
+  </body>
+</html>
