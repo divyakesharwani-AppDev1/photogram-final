@@ -60,9 +60,13 @@ class FollowRequestsController < ApplicationController
   def destroy
     the_id = params.fetch("path_id")
     the_follow_request = FollowRequest.where({ :id => the_id }).at(0)
-
+    the_follow_request_username = the_follow_request.recipient.username
     the_follow_request.destroy
 
-    redirect_to("/", { :notice => "Follow request deleted successfully."} )
+    if the_follow_request.recipient.private == true
+      redirect_to("/", { :notice => "Follow request deleted successfully."} )
+    elsif the_follow_request.recipient.private == false
+      redirect_to("/users/"+the_follow_request_username)
+    end
   end
 end

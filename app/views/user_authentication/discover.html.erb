@@ -1,0 +1,70 @@
+<h1><%= @the_user.username %></h1>
+<dl>
+  <dt>Private</dt>
+  <dd><%= @the_user.private %></dd>
+  <dt>Followers</dt>
+  <dd> <%= @the_user.following.count %> </dd>
+      
+  <dt>Following</dt>
+  <dd> <%= @the_user.followers.count %> </dd>
+</dl>
+
+
+<ul>
+  <li><a href="/users/<%= @the_user.username %>"> Profile </a></li>
+  <li><a href="/users/<%= @the_user.username %>/liked_photos"> Liked photos </a></li>
+  <li><a href="/users/<%= @the_user.username %>/feed"> Feed </a></li>
+  <li><a href="/users/<%= @the_user.username %>/discover"> Discover </a></li>
+<ul>
+  
+<h2> Feed (<%= @the_user.discovery.count %>) </h2>
+<table border="1">
+  <tr>
+    <th>
+      Image
+    </th>
+    <th>
+      Owner
+    </th>
+    <th>
+      Caption
+    </th>
+    <th>
+      Posted
+    </th>
+    <th>
+      Likes
+    </th>
+    <th></th>
+  </tr>
+
+            
+    <% @the_user.discovery.each do |a_discover_photo| %>
+      <tr>
+        <td>
+          <img src="<%= a_discover_photo.image %>">
+        </td>
+
+        <td>
+            <%= a_discover_photo.owner.username %>
+        </td>
+
+        <td>
+            <%= a_discover_photo.caption %>
+        </td>
+
+        <td>
+            <%= time_ago_in_words(a_discover_photo.created_at) %>
+        </td>   
+
+        <td>
+            <%= a_discover_photo.likes_count %>
+        </td>                 
+
+        <td>
+          <a href="/photos/<%= a_discover_photo.id %>"> Show details </a>
+        </td>
+      </tr>
+    <% end %>
+
+  </table>

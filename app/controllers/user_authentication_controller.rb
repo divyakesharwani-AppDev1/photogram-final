@@ -17,18 +17,31 @@ class UserAuthenticationController < ApplicationController
 
     @the_user = matching_user.at(0)
 
-    current_user_follow_request = FollowRequest.where({ :recipient_id => @the_user.id, :sender_id => @current_user.id })
-    the_follow_request = current_user_follow_request.at(0)
 
-    if the_follow_request == nil 
-      redirect_to("/users", {:alert => "You're not authorized for that."}) 
-    elsif the_follow_request.status == "pending" 
-      redirect_to("/users", {:alert => "You're not authorized for that."})
-    elsif the_follow_request.status == "accepted"  
+
+    if @current_user != nil 
+      current_user_follow_request = FollowRequest.where({ :recipient_id => @the_user.id, :sender_id => @current_user.id })
+      the_follow_request = current_user_follow_request.at(0)
+      if @the_user.private == true
+      
+        if the_follow_request == nil 
+          redirect_to("/users", {:alert => "You're not authorized for that."}) 
+        elsif the_follow_request.status == "pending" 
+          redirect_to("/users", {:alert => "You're not authorized for that."})
+        elsif the_follow_request.status == "accepted"  
+          render({ :template => "user_authentication/show.html.erb" })
+        elsif the_follow_request.status == "rejected" 
+          redirect_to("/users", {:alert => "You're not authorized for that."})
+        end 
+
+    elsif @the_user.private == false
       render({ :template => "user_authentication/show.html.erb" })
-    elsif the_follow_request.status == "rejected" 
-      redirect_to("/users", {:alert => "You're not authorized for that."})
-    end 
+    end
+
+    else
+      redirect_to("/user_sign_in", {:alert => "You have to sign in first."}) 
+    end
+
   end
 
 
@@ -116,5 +129,45 @@ class UserAuthenticationController < ApplicationController
     
     redirect_to("/", { :notice => "User account cancelled" })
   end
+
+  def liked_photos  
+
+    the_username = params.fetch("username")
+
+    matching_user = User.where({ :username => the_username })
+
+    @the_user = matching_user.at(0)
+
+    render({ :template => "user_authentication/liked_photos.html.erb" })
+
+ 
+  end
+
+  def feed
+    the_username = params.fetch("username")
+
+    matching_user = User.where({ :username => the_username })
+
+    @the_user = matching_user.at(0)
+
+    render({ :template => "user_authentication/feed.html.erb" })
+
+  end
+
+  def discover
+
+    the_username = params.fetch("username")
+
+    matching_user = User.where({ :username => the_username })
+
+    @the_user = matching_user.at(0)
+
+    render({ :template => "user_authentication/discover.html.erb" })
+
+
+  end
+
+
+
  
 end

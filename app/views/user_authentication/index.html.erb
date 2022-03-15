@@ -51,7 +51,7 @@
                     Follow
                   </button>
                 <% elsif the_follow_request.status == "pending" %>
-                  Requst sent <a href="/delete_follow_request/<%= the_follow_request.id %>"> Cancel </a>
+                  Request sent <a href="/delete_follow_request/<%= the_follow_request.id %>"> Cancel </a>
                 <% elsif the_follow_request.status == "accepted" %>
                   <a href="/delete_follow_request/<%= the_follow_request.id %>"> Unfollow </a>
                 <% elsif the_follow_request.status == "rejected" %>
