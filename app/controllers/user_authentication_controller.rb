@@ -17,7 +17,18 @@ class UserAuthenticationController < ApplicationController
 
     @the_user = matching_user.at(0)
 
-    render({ :template => "user_authentication/show.html.erb" })
+    current_user_follow_request = FollowRequest.where({ :recipient_id => @the_user.id, :sender_id => @current_user.id })
+    the_follow_request = current_user_follow_request.at(0)
+
+    if the_follow_request == nil 
+      redirect_to("/users", {:alert => "You're not authorized for that."}) 
+    elsif the_follow_request.status == "pending" 
+      redirect_to("/users", {:alert => "You're not authorized for that."})
+    elsif the_follow_request.status == "accepted"  
+      render({ :template => "user_authentication/show.html.erb" })
+    elsif the_follow_request.status == "rejected" 
+      redirect_to("/users", {:alert => "You're not authorized for that."})
+    end 
   end
 
 
