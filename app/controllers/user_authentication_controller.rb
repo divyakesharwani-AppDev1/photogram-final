@@ -20,23 +20,30 @@ class UserAuthenticationController < ApplicationController
 
 
     if @current_user != nil 
-      current_user_follow_request = FollowRequest.where({ :recipient_id => @the_user.id, :sender_id => @current_user.id })
-      the_follow_request = current_user_follow_request.at(0)
-      if @the_user.private == true
       
-        if the_follow_request == nil 
-          redirect_to("/users", {:alert => "You're not authorized for that."}) 
-        elsif the_follow_request.status == "pending" 
-          redirect_to("/users", {:alert => "You're not authorized for that."})
-        elsif the_follow_request.status == "accepted"  
-          render({ :template => "user_authentication/show.html.erb" })
-        elsif the_follow_request.status == "rejected" 
-          redirect_to("/users", {:alert => "You're not authorized for that."})
-        end 
+      if @the_user.username == @current_user.username 
+        render({ :template => "user_authentication/show.html.erb" })
+      else 
 
-    elsif @the_user.private == false
-      render({ :template => "user_authentication/show.html.erb" })
-    end
+      
+        current_user_follow_request = FollowRequest.where({ :recipient_id => @the_user.id, :sender_id => @current_user.id })
+        the_follow_request = current_user_follow_request.at(0)
+        if @the_user.private == true
+        
+          if the_follow_request == nil 
+            redirect_to("/users", {:alert => "You're not authorized for that."}) 
+          elsif the_follow_request.status == "pending" 
+            redirect_to("/users", {:alert => "You're not authorized for that."})
+          elsif the_follow_request.status == "accepted"  
+            render({ :template => "user_authentication/show.html.erb" })
+          elsif the_follow_request.status == "rejected" 
+            redirect_to("/users", {:alert => "You're not authorized for that."})
+          end 
+
+        elsif @the_user.private == false
+          render({ :template => "user_authentication/show.html.erb" })
+        end
+      end
 
     else
       redirect_to("/user_sign_in", {:alert => "You have to sign in first."}) 

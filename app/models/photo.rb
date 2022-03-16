@@ -10,7 +10,7 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  owner_id       :integer
-#
+#  For me, it is image in the photo table. so, user == photo and avatar == image 
 class Photo < ApplicationRecord
 
   belongs_to(:owner, {
@@ -39,7 +39,6 @@ class Photo < ApplicationRecord
     :source => :following 
   })
 
-
-
+ mount_uploader :image, ImageUploader
 
 end

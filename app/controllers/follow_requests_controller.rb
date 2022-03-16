@@ -43,6 +43,7 @@ class FollowRequestsController < ApplicationController
   def update
     the_id = params.fetch("path_id")
     the_follow_request = FollowRequest.where({ :id => the_id }).at(0)
+    the_follow_request_username = the_follow_request.recipient.username
 
     the_follow_request.recipient_id = params.fetch("query_recipient_id")
     the_follow_request.sender_id = params.fetch("query_sender_id")
@@ -50,7 +51,7 @@ class FollowRequestsController < ApplicationController
 
     if the_follow_request.valid?
       the_follow_request.save
-     redirect_to("/follow_requests/#{the_follow_request.id}", { :notice => "Follow request updated successfully."} )
+     redirect_to("/users/"+the_follow_request_username)
     else
       redirect_to("/follow_requests/#{the_follow_request.id}", { :alert => "Follow request failed to update successfully." })
     end

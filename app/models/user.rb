@@ -31,6 +31,17 @@ class User < ApplicationRecord
     :dependent => :destroy
   })
 
+  #To find out all the follow request the user sent and that was accepted
+  has_many( :accepted_sent_follow_requests, -> { 
+    where({ :status => "accepted" }) },{ 
+      :class_name => "FollowRequest", 
+      :foreign_key => "sender_id" })
+
+  #To find out all the  follow request the user received and has accepted
+  has_many( :accepted_received_follow_requests, -> {
+     where({ :status => "accepted" }) }, {
+       :class_name => "FollowRequest", 
+       :foreign_key => "recipient_id" })
 
   has_many(:sent_follow_requests, {
     :class_name => "FollowRequest",
@@ -46,13 +57,13 @@ class User < ApplicationRecord
 
   #To find out who all the user is following is to see who all has he sent the request to follow
   has_many(:following, {
-    :through => :sent_follow_requests,
+    :through => :accepted_sent_follow_requests,
     :source => :recipient
   })
 
   #To find out who all are my followers
   has_many(:followers, {
-    :through => :received_follow_requests,
+    :through => :accepted_received_follow_requests,
     :source => :sender
   })
   
@@ -78,4 +89,6 @@ class User < ApplicationRecord
      :source => :liked_photos 
   })
 
+  
+  
 end
