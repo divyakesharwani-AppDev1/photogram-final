@@ -12,6 +12,7 @@
 #  owner_id       :integer
 #  For me, it is image in the photo table. so, user == photo and avatar == image 
 class Photo < ApplicationRecord
+  validates :image, :presence => true
 
   belongs_to(:owner, {
     :class_name => "User"

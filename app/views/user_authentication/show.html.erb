@@ -67,7 +67,7 @@
   <dd>
     <form action="/modify_user/<% @current_user.id %>" method="post">
       <label for="browser_username">Username</label>
-      <input id="browser_username" type="text" name="query_username" value="<% @current_user.username %>">
+      <input id="browser_username" type="text" name="query_username" value="<%= @current_user.username %>">
 
       <label for="browser_private">Private?</label>
       <input id="browser_private" type="checkbox" name="query_private"  <%= "checked" if @current_user.private %>>
@@ -117,7 +117,7 @@
             <%= a_photo.caption %>
           </td>
           <td>
-            <%= time_ago_in_words(a_photo.created_at) %>
+            <%= time_ago_in_words(a_photo.created_at) %> ago
           </td>
           <td>
             <%= a_photo.likes_count %>

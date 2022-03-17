@@ -52,7 +52,7 @@ class PhotosController < ApplicationController
       the_photo.save
       redirect_to("/photos/#{the_photo.id}", { :notice => "Photo updated successfully."} )
     else
-      redirect_to("/photos/#{the_photo.id}", { :alert => "Photo failed to update successfully." })
+      redirect_to("/404.html", { :alert => "Photo failed to update successfully." })
     end
   end
 
